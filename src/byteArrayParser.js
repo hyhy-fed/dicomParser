@@ -2,6 +2,10 @@
  * Internal helper functions common to parsing byte arrays of any type
  */
 
+const fastGbk = require('fast-gbk');
+
+window.fastGbk = fastGbk;
+
 /**
  * Reads a string of 8-bit characters from an array of bytes and advances
  * the position by length bytes.  A null terminator will end the string
@@ -30,10 +34,14 @@ export function readFixedString (byteArray, position, length) {
     byte = byteArray[position + i];
     if (byte === 0) {
       position += length;
-
       return result;
     }
-    result += String.fromCharCode(byte);
+    if (byte > 128) {
+      result += fastGbk.decode([byte, byteArray[position + i + 1]]);
+      i++;
+    } else {
+      result += String.fromCharCode(byte);
+    }
   }
 
   return result;
