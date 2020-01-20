@@ -27,7 +27,8 @@ export default function parseDicom (byteArray, options) {
 
   function readTransferSyntax (metaHeaderDataSet) {
     if (metaHeaderDataSet.elements.x00020010 === undefined) {
-      throw 'dicomParser.parseDicom: missing required meta header attribute 0002,0010';
+      // throw 'dicomParser.parseDicom: missing required meta header attribute 0002,0010';
+      return '1.2.840.10008.1.2.1'; // Default is Explicit Little Endian.
     }
 
     const transferSyntaxElement = metaHeaderDataSet.elements.x00020010;
