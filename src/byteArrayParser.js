@@ -16,6 +16,7 @@ window.UTF8 = UTF8;
  * @param byteArray the byteArray to read from
  * @param position the position in the byte array to read from
  * @param length the maximum number of bytes to parse
+ * @param charset the specific character set
  * @returns {string} the parsed string
  * @throws error if buffer overread would occur
  * @access private
