@@ -176,9 +176,14 @@ export default class DataSet {
      */
   string (tag, index) {
     var element = this.elements[tag];
+    var charsetElement = this.elements.x00080005
+    var charset
+    if (charsetElement) {
+      charset = readFixedString(this.byteArray, charsetElement.dataOffset, charsetElement.length);
+    }
 
     if (element && element.length > 0) {
-      var fixedString = readFixedString(this.byteArray, element.dataOffset, element.length);
+      var fixedString = readFixedString(this.byteArray, element.dataOffset, element.length, charset);
 
       if (index >= 0) {
         var values = fixedString.split('\\');
