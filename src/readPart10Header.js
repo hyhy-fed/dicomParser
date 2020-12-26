@@ -45,7 +45,7 @@ export default function readPart10Header (byteArray, options) {
       const position = littleEndianByteStream.position;
       const element = readDicomElementExplicit(littleEndianByteStream, warnings);
 
-      if (element.tag > 'x0002ffff') {
+      if (element.tag > 'x0002ffff' || element.tag < 'x00020000') {
         littleEndianByteStream.position = position;
         break;
       }
