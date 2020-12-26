@@ -158,6 +158,38 @@ Running the build:
 Automatically running the build and unit tests after each source change:
 > npm run watch
 
+## Publish
+
+This library uses `semantic-release` to publish packages. The syntax of commits against the `master` branch
+determine how the new version calculated.
+
+<table>
+  <tr>
+    <th>Example Commit</th>
+    <th>Release Type</th>
+  </tr>
+  <tr>
+    <td>fix(pencil): stop graphite breaking when too much pressure applied</td>
+    <td>Patch Release</td>
+  </tr>
+  <tr>
+    <td>feat(pencil): add 'graphiteWidth' option</td>
+    <td>Feature Release</td>
+  </tr>
+  <tr>
+    <td>
+      perf(pencil): remove graphiteWidth option<br />
+      <br />
+      BREAKING CHANGE: The graphiteWidth option has been removed. 
+      The default graphite width of 10mm is always used for performance reasons.
+    </td>
+    <td>
+      Major Breaking Release
+    </td>
+  </tr>
+</table>
+
+
 Backlog
 ------------
 
@@ -344,6 +376,11 @@ harder it is to remember what you are looking at
 * Small functions.  The longer the function is, the harder it is to understand
 
 You can find out more about this by googling for "self documenting code"
+
+In the Wild
+===========
+
+- [VS Code: DICOM Dump Extension](https://github.com/smikitky/vscode-dicom-dump)
 
 Copyright
 ============
