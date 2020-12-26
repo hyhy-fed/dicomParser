@@ -235,6 +235,7 @@
                 try {
                     var start = new Date().getTime();
                     dataSet = dicomParser.parseDicom(byteArray);
+                    console.log(dataSet.elements);
                     // Here we call dumpDataSet to recursively iterate through the DataSet and create an array
                     // of strings of the contents.
                     var output = [];

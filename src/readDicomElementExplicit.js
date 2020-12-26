@@ -1,6 +1,6 @@
 import findEndOfEncapsulatedElement from './findEndOfEncapsulatedPixelData.js';
 import findAndSetUNElementLength from './findAndSetUNElementLength.js';
-import readSequenceItemsImplicit  from './readSequenceElementImplicit.js';
+import readSequenceItemsImplicit from './readSequenceElementImplicit.js';
 import readTag from './readTag.js';
 import findItemDelimitationItemAndSetElementLength from './findItemDelimitationItem.js';
 import readSequenceItemsExplicit from './readSequenceElementExplicit.js';

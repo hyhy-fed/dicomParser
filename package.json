@@ -45,10 +45,6 @@
     "webpack:prod": "webpack --progress --config ./config/webpack/webpack-prod",
     "webpack:watch": "webpack --progress --debug --watch  --config ./config/webpack"
   },
-  "dependencies": {
-    "fast-gbk": "^0.0.1",
-    "utf-8": "^2.0.0"
-  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",

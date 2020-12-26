@@ -176,8 +176,9 @@ export default class DataSet {
      */
   string (tag, index) {
     var element = this.elements[tag];
-    var charsetElement = this.elements.x00080005
-    var charset
+    var charsetElement = this.elements.x00080005;
+    var charset;
+
     if (charsetElement) {
       charset = readFixedString(this.byteArray, charsetElement.dataOffset, charsetElement.length);
     }

@@ -2,8 +2,8 @@
  * Internal helper functions common to parsing byte arrays of any type
  */
 
-import GBK from 'fast-gbk'
-import UTF8 from 'utf-8'
+import GBK from './util/gbk';
+import UTF8 from './util/utf8';
 
 window.GBK = GBK;
 window.UTF8 = UTF8;
@@ -37,12 +37,13 @@ export function readFixedString (byteArray, position, length, charset) {
     byte = byteArray[position + i];
     if (byte === 0) {
       position += length;
+
       return result;
     }
     if (byte > 128) {
       if (charset === 'ISO_IR 192') { // UTF-8
-        result += String.fromCharCode(UTF8.getCharCode([byte, byteArray[position + i + 1], byteArray[position + i + 2]]))
-        i = i + 2;
+        result += String.fromCharCode(UTF8.getCharCode([byte, byteArray[position + i + 1], byteArray[position + i + 2]]));
+        i += 2;
       } else if (charset === 'GBK' || charset === 'GB18030') {
         // GBK
         result += GBK.decode([byte, byteArray[position + i + 1]]);
