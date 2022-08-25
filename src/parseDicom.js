@@ -21,6 +21,7 @@ import * as parseDicomDataSet from './parseDicomDataSet.js';
  */
 
 export default function parseDicom (byteArray, options) {
+  let missingTransferSyntax = false
   if (byteArray === undefined) {
     throw 'dicomParser.parseDicom: missing required parameter \'byteArray\'';
   }
@@ -28,7 +29,14 @@ export default function parseDicom (byteArray, options) {
   function readTransferSyntax (metaHeaderDataSet) {
     if (metaHeaderDataSet.elements.x00020010 === undefined) {
       // throw 'dicomParser.parseDicom: missing required meta header attribute 0002,0010';
-      return '1.2.840.10008.1.2.1'; // Default is Explicit Little Endian.
+      // 解析缺失传输协议数据，试错
+      if (missingTransferSyntax) {
+        missingTransferSyntax = false
+        return '1.2.840.10008.1.2'
+      } else {
+        missingTransferSyntax = true
+        return '1.2.840.10008.1.2.1'; // Default is Explicit Little Endian.
+      }
     }
 
     const transferSyntaxElement = metaHeaderDataSet.elements.x00020010;
@@ -131,6 +139,9 @@ export default function parseDicom (byteArray, options) {
         parseDicomDataSet.parseDicomDataSetImplicit(dataSet, dataSetByteStream, dataSetByteStream.byteArray.length, options);
       }
     } catch (e) {
+      if (missingTransferSyntax && typeof e === 'string' && e.indexOf('buffer overrun') > -1) {
+        return readDataSet(metaHeaderDataSet)
+      }
       const ex = {
         exception: e,
         dataSet

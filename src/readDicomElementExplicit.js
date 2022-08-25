@@ -4,6 +4,7 @@ import readSequenceItemsImplicit from './readSequenceElementImplicit.js';
 import readTag from './readTag.js';
 import findItemDelimitationItemAndSetElementLength from './findItemDelimitationItem.js';
 import readSequenceItemsExplicit from './readSequenceElementExplicit.js';
+import { isPrivateTag } from './util/util.js'
 
 /**
  * Internal helper functions for for parsing DICOM elements
@@ -66,7 +67,12 @@ export default function readDicomElementExplicit (byteStream, warnings, untilTag
 
       return element;
     } else if (element.vr === 'UN') {
-      readSequenceItemsImplicit(byteStream, element);
+      // 私有tag按照传输协议，普通tag隐式解析
+      if (isPrivateTag(element.tag)) {
+        readSequenceItemsExplicit(byteStream, element);
+      } else {
+        readSequenceItemsImplicit(byteStream, element);
+      }
 
       return element;
     }
