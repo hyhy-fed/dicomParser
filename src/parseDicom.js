@@ -139,7 +139,7 @@ export default function parseDicom (byteArray, options) {
         parseDicomDataSet.parseDicomDataSetImplicit(dataSet, dataSetByteStream, dataSetByteStream.byteArray.length, options);
       }
     } catch (e) {
-      if (missingTransferSyntax && typeof e === 'string' && e.indexOf('buffer overrun') > -1) {
+      if (missingTransferSyntax && typeof e === 'string') {
         return readDataSet(metaHeaderDataSet)
       }
       const ex = {

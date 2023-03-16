@@ -35,6 +35,10 @@ export function parseDicomDataSetExplicit (dataSet, byteStream, maxPosition, opt
   if (byteStream.position > maxPosition) {
     throw 'dicomParser:parseDicomDataSetExplicit: buffer overrun';
   }
+
+  if (elements['x00000000']) {
+    throw 'dicomParser:Parsing failed';
+  }
 }
 
 /**
