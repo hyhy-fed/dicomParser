@@ -52,6 +52,7 @@ export default function readPart10Header (byteArray, options) {
       // Cache the littleEndianByteArrayParser for meta header elements, since the rest of the data set may be big endian
       // and this parser will be needed later if the meta header values are to be read.
       element.parser = littleEndianByteArrayParser;
+      if (elements[element.tag]) continue;
       elements[element.tag] = element;
     }
 
