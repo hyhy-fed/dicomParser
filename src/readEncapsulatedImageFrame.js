@@ -83,17 +83,20 @@ export default function readEncapsulatedImageFrame (dataSet, pixelDataElement, f
   if (frameIndex >= basicOffsetTable.length) {
     throw 'dicomParser.readEncapsulatedImageFrame: parameter \'frameIndex\' must be < basicOffsetTable.length';
   }
-
-  // find starting fragment based on the offset for the frame in the basic offset table
-  const offset = basicOffsetTable[frameIndex];
-  const startFragmentIndex = findFragmentIndexWithOffset(fragments, offset);
-
-  if (startFragmentIndex === undefined) {
-    throw 'dicomParser.readEncapsulatedImageFrame: unable to find fragment that matches basic offset table entry';
+  let numFragments = 1
+  let startFragmentIndex = frameIndex
+  if (basicOffsetTable.length === fragments.length) {
+    // find starting fragment based on the offset for the frame in the basic offset table
+    const offset = basicOffsetTable[frameIndex];
+    startFragmentIndex = findFragmentIndexWithOffset(fragments, offset);
+  
+    if (startFragmentIndex === undefined) {
+      throw 'dicomParser.readEncapsulatedImageFrame: unable to find fragment that matches basic offset table entry';
+    }
+  
+    // calculate the number of fragments for this frame
+    numFragments = calculateNumberOfFragmentsForFrame(frameIndex, basicOffsetTable, fragments, startFragmentIndex);
   }
-
-  // calculate the number of fragments for this frame
-  const numFragments = calculateNumberOfFragmentsForFrame(frameIndex, basicOffsetTable, fragments, startFragmentIndex);
 
   // now extract the frame from the fragments
   return readEncapsulatedPixelDataFromFragments(dataSet, pixelDataElement, startFragmentIndex, numFragments, fragments);
